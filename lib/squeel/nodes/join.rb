@@ -80,7 +80,7 @@ module Squeel
       # really have to do anything useful.
       # @return [NilClass] Just to avoid bombing out on expand_hash_conditions_for_aggregates
       def to_sym
-        nil
+        _name
       end
 
       def add_to_tree(hash)

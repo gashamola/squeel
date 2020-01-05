@@ -26,6 +26,12 @@ module Squeel
         })
       end
 
+      it 'converts keypaths with polymorphic joins to their hash equivalents' do
+        @v.accept(dsl{one.two(Person).three.four}).should eq({
+          :one => {:two => {:three => :four}}
+        })
+      end
+
       it 'visits hashes' do
         @v.accept(dsl{{
           blah1 => {blah2(Article) => blah3}
