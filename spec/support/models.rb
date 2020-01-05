@@ -92,6 +92,10 @@ class Article < ActiveRecord::Base
   else
     has_many :uniq_commenters, :through => :comments, :source => :person, :uniq => true
   end
+
+  sifter :title_starts_or_ends_with do |value|
+    (title =~ "#{value}%") | (title =~ "%#{value}")
+  end
 end
 
 class Comment < ActiveRecord::Base

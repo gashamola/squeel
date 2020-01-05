@@ -503,6 +503,15 @@ module Squeel
           article_predicate.left.relation.name.should eq 'articles'
           person_predicate.left.relation.name.should eq 'people'
         end
+
+        it 'visits nested Squeel sifters in keypath' do
+          predicate = @v.accept(dsl {notable(Article).sift(:title_starts_or_ends_with, 'Top')})
+          predicate.should be_a Arel::Nodes::Grouping
+          expr = predicate.expr
+          expr.should be_a Arel::Nodes::Or
+          expr.left.to_sql.should match /#{Q}articles#{Q}.#{Q}title#{Q} [I]*LIKE 'Top%'/
+          expr.right.to_sql.should match /#{Q}articles#{Q}.#{Q}title#{Q} [I]*LIKE '%Top'/
+        end
       end
 
     end

@@ -87,6 +87,11 @@ module Squeel
         hash[_join] ||= {}
       end
 
+      # fix sift for polymorphic joins
+      def sift(name, *args)
+        KeyPath.new([Stub.new(self._name), Sifter.new(name.to_sym, args)])
+      end
+
     end
   end
 end
